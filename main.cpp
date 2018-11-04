@@ -4,5 +4,5 @@ using namespace std;
 
 void main()
 {
-	//тут має бути код
+	// тут буде код
 }
