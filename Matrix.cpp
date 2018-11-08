@@ -505,7 +505,6 @@ Matrix Matrix::YakobyMethod()
 	if (!isSimmetrial())
 	{
 		cout << "Матриця не симетрична";
-
 	}
 	else
 	{
