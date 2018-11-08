@@ -10,7 +10,7 @@ void main()
 	SetConsoleOutputCP(1251);
 	Matrix a, b;
 	cin >> a; cout << endl;
-	cin >> b; cout << endl;
-	cout << a << endl << b << endl << a * b << endl;
+	cout << a << endl;
+	cout << a.YakobyMethod() << endl;
 	system("pause");
 }
