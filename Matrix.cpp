@@ -275,6 +275,17 @@ bool Matrix::isSimmetrial()
 
 }
 
+void Matrix::deleteColumn(int ind)
+{
+	for (int i = 0; i < n; i++)
+	{
+		for (int j = ind - 1; j < m - 1; j++)
+		{
+			*(*(matr + i) + j) = *(*(matr + i) + j + 1);
+		}
+	}
+	--m;
+}
 
 ostream& operator << (ostream& output, const Matrix& matrix)
 {
@@ -359,7 +370,19 @@ Matrix Matrix::GaussMethod()
 	return result;
 }
 
-double Matrix::IsNorma()
+void Matrix::MakeHilbertMatrix()
+{
+	int x = 1;
+	for (int i = 0; i < n; i++)
+	{
+		for (int j = 0; j < m - 1; j++)
+			matr[i][j] = 1.0 / (i + j + 1);
+		matr[i][m-1] = x;
+		x++;
+	}
+}
+
+double Matrix::Norma()
 {
 	double temp = 0;
 	for (int j = 0; j < m; j++)
@@ -369,17 +392,6 @@ double Matrix::IsNorma()
 	return sqrt(temp);
 }
 
-void Matrix::deleteColumn(int ind)
-{
-	for (int i = 0; i < n; i++)
-	{
-		for (int j = ind - 1; j < m - 1; j++)
-		{
-			*(*(matr + i) + j) = *(*(matr + i) + j + 1);
-		}
-	}
-	--m;
-}
 
 double Matrix::scalMultiplication(Matrix &other)
 {
@@ -407,11 +419,11 @@ Matrix Matrix::KachmagMethod()
 	Matrix ai(1, m, 0);
 	int j = 0;
 	double temp;
-	while (sub.IsNorma() > E)
+	while (sub.Norma() > E)
 	{
 		tempRow = getRow(j + 1);
 		ai.matr[0] = tempRow;
-		temp = ((free.matr[0][j] - ai.scalMultiplication(x)) / (ai.IsNorma()*ai.IsNorma()));
+		temp = ((free.matr[0][j] - ai.scalMultiplication(x)) / (ai.Norma()*ai.Norma()));
 
 		ai = ai * temp;
 		x1 = x + ai;
@@ -477,7 +489,7 @@ void Matrix::unitMatrix()
 	}
 }
 
-void Matrix::turnMatrix(const int& maxI, const int& maxJ, Matrix &other)
+void Matrix::rotateMatrix(const int& maxI, const int& maxJ, Matrix &other)
 {
 	other.unitMatrix();
 	if (matr[maxI][maxI] == matr[maxJ][maxJ])
@@ -498,13 +510,15 @@ Matrix Matrix::YakobyMethod()
 {
 	int maxI = 0, maxJ = 0;
 	double oversight = 0.0;
-	Matrix turnedMatrix(n, m, 0);
+	Matrix RotationMatrix(n, m, 0);
 	Matrix temp(n, m, 0);
 	double E = 0.00001;
 
 	if (!isSimmetrial())
 	{
 		cout << "Матриця не симетрична";
+		system("pause");
+		exit(1);
 	}
 	else
 	{
@@ -512,10 +526,10 @@ Matrix Matrix::YakobyMethod()
 		while (oversight > E)
 		{
 			findMax(maxI, maxJ);
-			this->turnMatrix(maxI, maxJ, turnedMatrix);
-			temp = ~turnedMatrix * (*this);
-			*this = temp * turnedMatrix;
-			this->findOversight(oversight);
+			rotateMatrix(maxI, maxJ, RotationMatrix);
+			temp = ~RotationMatrix * (*this);
+			*this = temp * RotationMatrix;
+			findOversight(oversight);
 		}
 	}
 	for (int i = 0; i < n; i++)
@@ -524,7 +538,6 @@ Matrix Matrix::YakobyMethod()
 		{
 			if (abs(matr[i][j]) < E)
 				matr[i][j] = 0;
-
 		}
 	}
 	return *this;

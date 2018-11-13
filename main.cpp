@@ -8,9 +8,10 @@ void main()
 {
 	SetConsoleCP(1251);
 	SetConsoleOutputCP(1251);
-	Matrix a, b;
+	Matrix a;
+	//a.MakeHilbertMatrix();
 	cin >> a; cout << endl;
-	cout << a << endl;
-	cout << a.YakobyMethod() << endl;
+	cout << a << endl; 
+	cout << a.GaussMethod() << endl;
 	system("pause");
 }

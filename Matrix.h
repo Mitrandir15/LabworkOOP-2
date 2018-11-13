@@ -27,14 +27,15 @@ public:
 	double* operator[](int);                 //доступ до елемента за ≥ндексом
 	Matrix operator~ ();   //транспонуванн€ матриц≥
 
-	double IsNorma();
+	void MakeHilbertMatrix();
+	double Norma();
 	double scalMultiplication(Matrix&); //скал€рний добуток
 	void deleteColumn(int ind); // видалити стовпчик
 
 	bool isSimmetrial();
 	double findOversight(double&);
 	void  findMax(int&, int&);
-	void turnMatrix(const int&, const int&, Matrix&);
+	void rotateMatrix(const int&, const int&, Matrix&);
 
 	Matrix GaussMethod();
 	Matrix KachmagMethod();
